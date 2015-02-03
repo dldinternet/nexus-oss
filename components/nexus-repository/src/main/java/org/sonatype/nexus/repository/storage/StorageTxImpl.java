@@ -26,6 +26,7 @@ import org.sonatype.nexus.common.stateguard.StateGuardAware;
 import org.sonatype.nexus.common.stateguard.Transitions;
 import org.sonatype.nexus.orient.graph.GraphTx;
 import org.sonatype.nexus.repository.Repository;
+import org.sonatype.nexus.repository.util.NestedAttributesMap;
 import org.sonatype.sisu.goodies.common.ComponentSupport;
 
 import com.google.common.base.Function;
@@ -370,6 +371,15 @@ public class StorageTxImpl
     checkNotNull(className);
 
     return graphTx.addVertex(className, (String) null);
+  }
+
+  @Override
+  @Guarded(by=OPEN)
+  public NestedAttributesMap getAttributes(final OrientVertex vertex) {
+    checkNotNull(vertex);
+
+    Map<String, Object> backing = vertex.getProperty(P_ATTRIBUTES);
+    return new NestedAttributesMap("attributes", backing);
   }
 
   @Override

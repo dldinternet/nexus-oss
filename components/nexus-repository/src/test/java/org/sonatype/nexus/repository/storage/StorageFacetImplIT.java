@@ -122,6 +122,35 @@ public class StorageFacetImplIT
   }
 
   @Test
+  public void getAndSetAttributes() {
+    Object vertexId;
+    try (StorageTx tx = underTest.openTx()) {
+      OrientVertex asset = tx.createAsset(tx.getBucket());
+      vertexId = asset.getId();
+      NestedAttributesMap map = tx.getAttributes(asset);
+
+      assertThat(map.isEmpty(), is(true));
+
+      map.child("bag1").set("foo", "bar");
+      map.child("bag2").set("baz", "qux");
+
+      assertThat(map.isEmpty(), is(false));
+
+      tx.commit();
+    }
+
+    try (StorageTx tx = underTest.openTx()) {
+      NestedAttributesMap map = tx.getAttributes(tx.findVertex(vertexId, null));
+
+      assertThat(map.size(), is(2));
+      assertThat(map.child("bag1").size(), is(1));
+      assertThat((String) map.child("bag1").get("foo"), is("bar"));
+      assertThat(map.child("bag2").size(), is(1));
+      assertThat((String) map.child("bag2").get("baz"), is("qux"));
+    }
+  }
+
+  @Test
   public void findAssets() throws Exception {
     // Setup: add an asset in both repositories
     try (StorageTx tx = underTest.openTx()) {

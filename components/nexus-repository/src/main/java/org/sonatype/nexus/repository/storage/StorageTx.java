@@ -20,6 +20,7 @@ import javax.annotation.Nullable;
 import org.sonatype.nexus.blobstore.api.Blob;
 import org.sonatype.nexus.blobstore.api.BlobRef;
 import org.sonatype.nexus.repository.Repository;
+import org.sonatype.nexus.repository.util.NestedAttributesMap;
 
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
@@ -176,6 +177,13 @@ public interface StorageTx
    * Creates a new vertex of the specified class.
    */
   OrientVertex createVertex(String className);
+
+  /**
+   * Gets the "attributes" map of an asset or component vertex.
+   *
+   * Changes to the map will be persisted when the transaction is committed.
+   */
+  NestedAttributesMap getAttributes(OrientVertex vertex);
 
   /**
    * Deletes an existing vertex.

@@ -40,9 +40,7 @@ import org.sonatype.nexus.repository.view.Context;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.hash.HashCode;
-import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.orient.OrientVertex;
@@ -129,9 +127,7 @@ public class RawContentFacetImpl
         component.setProperty(P_NAME, getName(path));
 
         // Set attributes map to contain "raw" format-specific metadata (in this case, path)
-        Map<String, String> rawAttributes = ImmutableMap.of(P_PATH, path);
-        Map<String, Map<String, String>> attributes = ImmutableMap.of(RAW, rawAttributes);
-        component.setProperty(P_ATTRIBUTES, attributes, OType.EMBEDDEDMAP);
+        tx.getAttributes(component).child(RAW).set(P_PATH, path);
 
         asset = tx.createAsset(bucket);
         asset.addEdge(E_PART_OF_COMPONENT, component);
@@ -157,13 +153,10 @@ public class RawContentFacetImpl
 
       // Set attributes map to contain computed checksum metadata
       Map<HashAlgorithm, HashCode> hashes = hashingStream.hashes();
-      Map<String, String> checksumAttributes = Maps.newHashMap();
+      NestedAttributesMap checksums = tx.getAttributes(asset).child(P_CHECKSUM);
       for (HashAlgorithm algorithm : hashAlgorithms) {
-        HashCode code = hashes.get(algorithm);
-        checksumAttributes.put(algorithm.name(), code.toString());
+        checksums.set(algorithm.name(), hashes.get(algorithm).toString());
       }
-      Map<String, Map<String, String>> attributes = ImmutableMap.of(P_CHECKSUM, checksumAttributes);
-      asset.setProperty(P_ATTRIBUTES, attributes, OType.EMBEDDEDMAP);
 
       final DateTime lastUpdated = content.getLastUpdated();
       if (lastUpdated != null) {
