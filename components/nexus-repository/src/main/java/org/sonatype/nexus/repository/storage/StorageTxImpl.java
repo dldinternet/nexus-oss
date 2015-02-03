@@ -33,6 +33,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.orientechnologies.orient.core.metadata.schema.OType;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.sql.OCommandSQL;
 import com.tinkerpop.blueprints.Direction;
@@ -43,6 +44,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.sonatype.nexus.repository.storage.StorageFacet.E_OWNS_ASSET;
 import static org.sonatype.nexus.repository.storage.StorageFacet.E_OWNS_COMPONENT;
+import static org.sonatype.nexus.repository.storage.StorageFacet.P_ATTRIBUTES;
 import static org.sonatype.nexus.repository.storage.StorageFacet.P_REPOSITORY_NAME;
 import static org.sonatype.nexus.repository.storage.StorageFacet.V_ASSET;
 import static org.sonatype.nexus.repository.storage.StorageFacet.V_COMPONENT;
@@ -346,6 +348,7 @@ public class StorageTxImpl
     checkNotNull(bucket);
 
     OrientVertex asset = createVertex(V_ASSET);
+    asset.setProperty(P_ATTRIBUTES, ImmutableMap.of(), OType.EMBEDDEDMAP);
     graphTx.addEdge(null, bucket, asset, E_OWNS_ASSET);
     return asset;
   }
@@ -356,6 +359,7 @@ public class StorageTxImpl
     checkNotNull(bucket);
 
     OrientVertex component = createVertex(V_COMPONENT);
+    component.setProperty(P_ATTRIBUTES, ImmutableMap.of(), OType.EMBEDDEDMAP);
     graphTx.addEdge(null, bucket, component, E_OWNS_COMPONENT);
     return component;
   }

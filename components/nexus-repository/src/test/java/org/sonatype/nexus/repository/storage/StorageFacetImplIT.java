@@ -40,12 +40,14 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.sonatype.nexus.repository.storage.StorageFacet.P_ATTRIBUTES;
 import static org.sonatype.nexus.repository.storage.StorageFacet.P_PATH;
 import static org.sonatype.nexus.repository.storage.StorageFacet.V_ASSET;
 import static org.sonatype.nexus.repository.storage.StorageFacet.V_BUCKET;
@@ -100,6 +102,22 @@ public class StorageFacetImplIT
       // We should have one bucket, which was auto-created for the repository during initialization
       checkSize(tx.browseVertices(null), 1);
       checkSize(tx.browseVertices(V_BUCKET), 1);
+    }
+  }
+
+  @Test
+  public void startWithEmptyAttributes() {
+    try (StorageTx tx = underTest.openTx()) {
+      OrientVertex asset = tx.createAsset(tx.getBucket());
+      OrientVertex component = tx.createComponent(tx.getBucket());
+
+      Map<String, Object> assetAttributes = component.getProperty(P_ATTRIBUTES);
+      assertThat(assetAttributes, is(notNullValue()));
+      assertThat(assetAttributes.isEmpty(), is(true));
+
+      Map<String, Object> componentAttributes = component.getProperty(P_ATTRIBUTES);
+      assertThat(componentAttributes, is(notNullValue()));
+      assertThat(componentAttributes.isEmpty(), is(true));
     }
   }
 
