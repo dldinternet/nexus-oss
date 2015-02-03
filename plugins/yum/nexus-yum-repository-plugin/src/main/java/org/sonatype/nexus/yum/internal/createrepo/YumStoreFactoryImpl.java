@@ -102,6 +102,9 @@ public class YumStoreFactoryImpl
     @Override
     public Iterable<YumPackage> get() {
       try (ODatabaseDocumentTx db = openDb()) {
+        // NOTE: this will read all packages fact that can lead to high memory consumption, depending on the number of
+        // packages in repository. To avoid this, we could get onl the RIDs from db and then use guava
+        // Iterables.transform which will read the package from db on iterable next()
         List<YumPackage> packages = Lists.newArrayList();
         for (ODocument document : entityAdapter.get(db, repositoryId)) {
           packages.add(entityAdapter.read(document));
