@@ -26,11 +26,11 @@ import javax.servlet.ServletContext;
 import org.sonatype.security.authentication.FirstSuccessfulModularRealmAuthenticator;
 import org.sonatype.security.authorization.ExceptionCatchingModularRealmAuthorizer;
 import org.sonatype.security.web.ProtectedPathManager;
+import org.sonatype.security.web.ProtectedPathManagerImpl;
 
 import com.google.common.base.Throwables;
 import com.google.inject.Key;
 import com.google.inject.binder.AnnotatedBindingBuilder;
-import com.google.inject.name.Names;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.Authenticator;
@@ -73,7 +73,7 @@ public class SecurityWebModule
     bind(SessionDAO.class).to(EnterpriseCacheSessionDAO.class).asEagerSingleton();
     bind(Authenticator.class).to(FirstSuccessfulModularRealmAuthenticator.class).in(Singleton.class);
     bind(Authorizer.class).to(ExceptionCatchingModularRealmAuthorizer.class).in(Singleton.class);
-    bind(ProtectedPathManager.class).to(SimpleProtectedPathManager.class).in(Singleton.class);
+    bind(ProtectedPathManager.class).to(ProtectedPathManagerImpl.class).in(Singleton.class);
 
     // override the default resolver with one backed by a FilterChainManager using an injected filter map
     bind(FilterChainResolver.class).toConstructor(ctor(PathMatchingFilterChainResolver.class)).asEagerSingleton();
@@ -104,18 +104,6 @@ public class SecurityWebModule
     bind.to(NexusDefaultWebSessionManager.class).asEagerSingleton();
     // this is a PrivateModule, so explicitly binding the NexusDefaultSessionManager class
     bind(NexusDefaultWebSessionManager.class);
-  }
-
-  /**
-   * Binds the named {@link Filter} instance and exposes this binding to other modules.
-   *
-   * @param name   The filter name
-   * @param filter The filter instance
-   */
-  protected void bindNamedFilter(String name, Filter filter) {
-    Key<Filter> key = Key.get(Filter.class, Names.named(name));
-    bind(key).toInstance(filter);
-    expose(key);
   }
 
   /**
@@ -214,24 +202,6 @@ public class SecurityWebModule
 
     public Enumeration getInitParameterNames() {
       return servletContext.getInitParameterNames();
-    }
-  }
-
-  /**
-   * Simpler wrapper around Shiro's {@link FilterChainManager}.
-   */
-  private static final class SimpleProtectedPathManager
-      implements ProtectedPathManager
-  {
-    private final FilterChainManager filterChainManager;
-
-    @Inject
-    private SimpleProtectedPathManager(FilterChainManager filterChainManager) {
-      this.filterChainManager = filterChainManager;
-    }
-
-    public void addProtectedResource(String pathPattern, String filterExpression) {
-      this.filterChainManager.createChain(pathPattern, filterExpression);
     }
   }
 }

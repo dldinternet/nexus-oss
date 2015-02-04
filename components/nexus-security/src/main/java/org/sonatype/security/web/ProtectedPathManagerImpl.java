@@ -23,22 +23,21 @@ import org.apache.shiro.web.filter.mgt.FilterChainManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-// FIXME: Remove this class and intf, use the FilterChainManager directly
-// FIXME: SimpleProtectedPathManager in SecurtiyWebModule seems to be what is bound to this type anyways?!
+// FIXME: Remove use the FilterChainManager directly?
 
 /**
  * Default {@link ProtectedPathManager}.
  */
-@Named("default")
+@Named
 @Singleton
-public class DefaultProtectedPathManager
+public class ProtectedPathManagerImpl
     extends ComponentSupport
     implements ProtectedPathManager
 {
   private final FilterChainManager filterChainManager;
 
   @Inject
-  public DefaultProtectedPathManager(final FilterChainManager filterChainManager) {
+  public ProtectedPathManagerImpl(final FilterChainManager filterChainManager) {
     this.filterChainManager = checkNotNull(filterChainManager);
   }
 

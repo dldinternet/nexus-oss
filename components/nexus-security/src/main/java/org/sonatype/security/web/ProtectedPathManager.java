@@ -12,6 +12,8 @@
  */
 package org.sonatype.security.web;
 
+// FIXME: Remove use the FilterChainManager directly?
+
 /**
  * This component will manage how paths are dynamically added to the security infrastructure.
  */
