@@ -1515,7 +1515,10 @@ public abstract class AbstractProxyRepository
         sendContentValidationEvents(request, events, false);
 
         try {
-          getLocalStorage().deleteItem(this, request);
+          final StorageItem item = getLocalStorage().retrieveItem(this, request);
+          if (!(item instanceof StorageCollectionItem)) {
+            getLocalStorage().deleteItem(this, request);
+          }
         }
         catch (ItemNotFoundException e) {
           // good, we want this item deleted
