@@ -139,7 +139,7 @@ Ext.define('NX.controller.Bookmarking', {
   bindToHistory: function () {
     var me = this;
 
-    Ext.History.on('change', me.onNavigate, me);
+    //Ext.History.on('change', me.onNavigate, me);
   }
 
 });
