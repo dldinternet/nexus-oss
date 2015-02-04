@@ -24,8 +24,6 @@ import org.sonatype.siesta.Resource;
 import org.sonatype.sisu.goodies.common.ComponentSupport;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.subject.Subject;
 import org.jetbrains.annotations.NonNls;
 
@@ -45,15 +43,13 @@ public class SessionResource
   public static final String RESOURCE_URI = WonderlandPlugin.REST_PREFIX + "/session";
 
   @POST
-  @RequiresAuthentication
   public void create() {
     Subject subject = SecurityUtils.getSubject();
-    log.debug("Created session: {}", subject.getPrincipal());
+    log.debug("Create session: {}", subject.getPrincipal());
     // Shiro handles the details here automatically
   }
 
   @DELETE
-  @RequiresUser
   public void delete() {
     Subject subject = SecurityUtils.getSubject();
     log.debug("Delete session: {}", subject.getPrincipal());
