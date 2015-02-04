@@ -427,6 +427,17 @@
         </plugin>
 
         <!--
+        Turn off strict javadoc checks in Java8.
+        -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <configuration>
+            <additionalparam>-Xdoclint:none</additionalparam>
+          </configuration>
+        </plugin>
+
+        <!--
         Additional configuration for release; enable additional profiles.
         -->
         <plugin>
@@ -599,7 +610,7 @@
         <plugin>
           <groupId>org.apache.karaf.tooling</groupId>
           <artifactId>karaf-maven-plugin</artifactId>
-          <version>3.0.2</version>
+          <version>3.0.3</version>
           <extensions>true</extensions>
           <configuration>
             <excludedArtifactIds>
