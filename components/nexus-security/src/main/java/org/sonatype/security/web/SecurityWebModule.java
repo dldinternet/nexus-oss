@@ -10,7 +10,7 @@
  * of Sonatype, Inc. Apache Maven is a trademark of the Apache Software Foundation. M2eclipse is a trademark of the
  * Eclipse Foundation. All other trademarks are the property of their respective owners.
  */
-package org.sonatype.security.web.guice;
+package org.sonatype.security.web;
 
 import java.lang.reflect.Constructor;
 import java.util.Enumeration;
@@ -25,8 +25,6 @@ import javax.servlet.ServletContext;
 
 import org.sonatype.security.authentication.FirstSuccessfulModularRealmAuthenticator;
 import org.sonatype.security.authorization.ExceptionCatchingModularRealmAuthorizer;
-import org.sonatype.security.web.ProtectedPathManager;
-import org.sonatype.security.web.ProtectedPathManagerImpl;
 
 import com.google.common.base.Throwables;
 import com.google.inject.Key;
