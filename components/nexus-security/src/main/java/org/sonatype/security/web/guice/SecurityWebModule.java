@@ -55,22 +55,14 @@ import org.eclipse.sisu.inject.BeanLocator;
 
 /**
  * Extends ShiroWebModule to configure commonly set components such as SessionDAO, Authenticator, Authorizer, etc.
- * <p>
- * When {@link #useFilterChainManager} is {@code true} the {@link #addFilterChain} method has no affect; instead all
- * named filters bound in this application are injected into the {@link FilterChainManager} so they can be added to
- * filter chains programatically.
  *
  * @since 2.6.1
  */
 public class SecurityWebModule
     extends ShiroWebModule
 {
-  // FIXME: This is always true, simplify and rip this shit out
-  private final boolean useFilterChainManager;
-
-  public SecurityWebModule(ServletContext servletContext, boolean useFilterChainManager) {
+  public SecurityWebModule(final ServletContext servletContext) {
     super(servletContext);
-    this.useFilterChainManager = useFilterChainManager;
   }
 
   @Override
@@ -83,11 +75,9 @@ public class SecurityWebModule
     bind(Authorizer.class).to(ExceptionCatchingModularRealmAuthorizer.class).in(Singleton.class);
     bind(ProtectedPathManager.class).to(SimpleProtectedPathManager.class).in(Singleton.class);
 
-    if (useFilterChainManager) {
-      // override the default resolver with one backed by a FilterChainManager using an injected filter map
-      bind(FilterChainResolver.class).toConstructor(ctor(PathMatchingFilterChainResolver.class)).asEagerSingleton();
-      bind(FilterChainManager.class).toProvider(FilterChainManagerProvider.class).in(Singleton.class);
-    }
+    // override the default resolver with one backed by a FilterChainManager using an injected filter map
+    bind(FilterChainResolver.class).toConstructor(ctor(PathMatchingFilterChainResolver.class)).asEagerSingleton();
+    bind(FilterChainManager.class).toProvider(FilterChainManagerProvider.class).in(Singleton.class);
 
     // bindings used by external modules
     expose(ProtectedPathManager.class);
@@ -151,7 +141,7 @@ public class SecurityWebModule
   /**
    * @return Public constructor with given parameterTypes; wraps checked exceptions
    */
-  private static final <T> Constructor<T> ctor(Class<T> clazz, Class<?>... parameterTypes) {
+  private static <T> Constructor<T> ctor(Class<T> clazz, Class<?>... parameterTypes) {
     try {
       return clazz.getConstructor(parameterTypes);
     }

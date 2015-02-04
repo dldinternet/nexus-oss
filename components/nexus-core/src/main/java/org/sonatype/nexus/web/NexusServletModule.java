@@ -83,7 +83,7 @@ public class NexusServletModule
 
     install(new MetricsModule());
 
-    install(new SecurityWebModule(servletContext, true));
+    install(new SecurityWebModule(servletContext));
 
     install(new OrientModule());
   }
