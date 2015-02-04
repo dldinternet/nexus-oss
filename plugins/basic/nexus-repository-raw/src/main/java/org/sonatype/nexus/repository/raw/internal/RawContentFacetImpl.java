@@ -33,6 +33,7 @@ import org.sonatype.nexus.repository.content.InvalidContentException;
 import org.sonatype.nexus.repository.negativecache.NegativeCacheKey;
 import org.sonatype.nexus.repository.negativecache.NegativeCacheKeySource;
 import org.sonatype.nexus.repository.raw.RawContent;
+import org.sonatype.nexus.repository.raw.RawFormat;
 import org.sonatype.nexus.repository.storage.StorageFacet;
 import org.sonatype.nexus.repository.storage.StorageTx;
 import org.sonatype.nexus.repository.util.NestedAttributesMap;
@@ -72,8 +73,6 @@ public class RawContentFacetImpl
     implements RawContentFacet, NegativeCacheKeySource
 {
   public static final String CONFIG_KEY = "rawContent";
-
-  private final static String RAW = "raw";
 
   private final static List<HashAlgorithm> hashAlgorithms = Lists.newArrayList(MD5, SHA1);
 
@@ -122,12 +121,12 @@ public class RawContentFacetImpl
         component = tx.createComponent(bucket);
 
         // Set normalized properties: format, group, and name (version is undefined for "raw" components)
-        component.setProperty(P_FORMAT, RAW);
+        component.setProperty(P_FORMAT, RawFormat.NAME);
         component.setProperty(P_GROUP, getGroup(path));
         component.setProperty(P_NAME, getName(path));
 
         // Set attributes map to contain "raw" format-specific metadata (in this case, path)
-        tx.getAttributes(component).child(RAW).set(P_PATH, path);
+        tx.getAttributes(component).child(RawFormat.NAME).set(P_PATH, path);
 
         asset = tx.createAsset(bucket);
         asset.addEdge(E_PART_OF_COMPONENT, component);
@@ -283,7 +282,7 @@ public class RawContentFacetImpl
 
   // TODO: Consider a top-level indexed property (e.g. "locator") to make these common lookups fast
   private OrientVertex getComponent(StorageTx tx, String path, OrientVertex bucket) {
-    String property = String.format("%s.%s.%s", P_ATTRIBUTES, RAW, P_PATH);
+    String property = String.format("%s.%s.%s", P_ATTRIBUTES, RawFormat.NAME, P_PATH);
     return tx.findComponentWithProperty(property, path, bucket);
   }
 

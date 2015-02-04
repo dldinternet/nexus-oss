@@ -29,8 +29,10 @@ import org.sonatype.nexus.repository.httpclient.HttpClientFacet;
 import org.sonatype.nexus.repository.negativecache.NegativeCacheHandler;
 import org.sonatype.nexus.repository.negativecache.NegativeCacheImpl;
 import org.sonatype.nexus.repository.proxy.ProxyHandler;
+import org.sonatype.nexus.repository.raw.RawFormat;
 import org.sonatype.nexus.repository.security.SecurityHandler;
 import org.sonatype.nexus.repository.storage.StorageFacetImpl;
+import org.sonatype.nexus.repository.types.ProxyType;
 import org.sonatype.nexus.repository.view.ConfigurableViewFacet;
 import org.sonatype.nexus.repository.view.Route;
 import org.sonatype.nexus.repository.view.Router;
@@ -48,11 +50,13 @@ import static org.sonatype.nexus.repository.http.HttpHandlers.notFound;
  *
  * @since 3.0
  */
-@Named("raw-proxy")
+@Named(RawProxyRecipe.NAME)
 @Singleton
 public class RawProxyRecipe
     extends RecipeSupport
 {
+  static final String NAME = "raw-proxy";
+
   private final Provider<RawSecurityFacet> securityFacet;
 
   private final NegativeCacheHandler negativeCacheHandler;
@@ -69,8 +73,8 @@ public class RawProxyRecipe
   private final List<Provider<? extends Facet>> facetProviders = Lists.newArrayList();
 
   @Inject
-  public RawProxyRecipe(final @Named("proxy") Type type,
-                        final @Named("raw") Format format,
+  public RawProxyRecipe(final @Named(ProxyType.NAME) Type type,
+                        final @Named(RawFormat.NAME) Format format,
                         final NegativeCacheHandler negativeCacheHandler,
                         final ProxyHandler proxyHandler,
                         final TimingHandler timingHandler,

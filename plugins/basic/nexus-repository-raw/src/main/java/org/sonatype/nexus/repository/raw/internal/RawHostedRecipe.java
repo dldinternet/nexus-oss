@@ -39,11 +39,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * @since 3.0
  */
-@Named("raw-hosted")
+@Named(RawHostedRecipe.NAME)
 @Singleton
 public class RawHostedRecipe
     extends RecipeSupport
 {
+  static final String NAME = "raw-hosted";
+
   private final Provider<RawSecurityFacet> securityFacet;
 
   private final Provider<ConfigurableViewFacet> viewFacet;
