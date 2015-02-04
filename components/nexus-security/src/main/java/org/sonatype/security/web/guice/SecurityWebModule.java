@@ -38,8 +38,8 @@ import org.apache.shiro.authz.Authorizer;
 import org.apache.shiro.config.ConfigurationException;
 import org.apache.shiro.guice.web.ShiroWebModule;
 import org.apache.shiro.mgt.RealmSecurityManager;
-import org.apache.shiro.nexus.NexusWebSecurityManager;
 import org.apache.shiro.nexus.NexusDefaultWebSessionManager;
+import org.apache.shiro.nexus.NexusWebSecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
@@ -54,7 +54,7 @@ import org.eclipse.sisu.Mediator;
 import org.eclipse.sisu.inject.BeanLocator;
 
 /**
- * Extends ShiroWebModule to configure commonly set commponents such as SessionDAO, Authenticator, Authorizer, etc.
+ * Extends ShiroWebModule to configure commonly set components such as SessionDAO, Authenticator, Authorizer, etc.
  * <p>
  * When {@link #useFilterChainManager} is {@code true} the {@link #addFilterChain} method has no affect; instead all
  * named filters bound in this application are injected into the {@link FilterChainManager} so they can be added to
@@ -65,6 +65,7 @@ import org.eclipse.sisu.inject.BeanLocator;
 public class SecurityWebModule
     extends ShiroWebModule
 {
+  // FIXME: This is always true, simplify and rip this shit out
   private final boolean useFilterChainManager;
 
   public SecurityWebModule(ServletContext servletContext, boolean useFilterChainManager) {
