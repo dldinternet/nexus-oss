@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
-import javax.enterprise.inject.Typed;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -73,7 +72,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * This implementation wraps a Shiro SecurityManager, and adds user management.
  */
 @Singleton
-@Typed(SecuritySystem.class)
 @Named("default")
 public class DefaultSecuritySystem
     extends ComponentSupport
