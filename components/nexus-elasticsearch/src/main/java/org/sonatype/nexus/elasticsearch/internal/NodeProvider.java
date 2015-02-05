@@ -57,12 +57,7 @@ public class NodeProvider
   public Node get() {
     if (node == null) {
       try {
-        Node node = create();
-
-        log.debug("Waiting for green-status");
-        node.client().admin().cluster().prepareHealth().setWaitForGreenStatus().execute().actionGet();
-
-        this.node = node;
+        node = create();
       }
       catch (Exception e) {
         log.warn("Failed to create node", e);
