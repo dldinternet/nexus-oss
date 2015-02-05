@@ -141186,7 +141186,7 @@ Ext.define('Ext.util.History', {
     },
 
     getHash: function() {
-        return this.win.location.hash.substr(1);
+        return location.href.split('#').splice(1).join('#');
     },
 
     setHash: function (hash) {

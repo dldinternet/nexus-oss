@@ -81,7 +81,8 @@ Ext.define('NX.controller.Bookmarking', {
 
     if (bookmark && oldValue !== bookmark.getToken()) {
       me.logDebug('Bookmark: ' + bookmark.getToken() + (caller ? ' (' + caller.self.getName() + ')' : ''));
-      Ext.History.bookmark = bookmark.getToken();
+
+      //Ext.History.bookmark = bookmark.getToken();
       Ext.History.add(bookmark.getToken());
     }
   },
@@ -126,10 +127,10 @@ Ext.define('NX.controller.Bookmarking', {
   onNavigate: function (token) {
     var me = this;
 
-    if (token !== Ext.History.bookmark) {
-      delete Ext.History.bookmark;
+    /*if (token !== Ext.History.bookmark) {
+      delete Ext.History.bookmark;*/
       me.navigateTo(NX.Bookmarks.fromToken(token), me);
-    }
+    //}
   },
 
   /**
@@ -139,7 +140,7 @@ Ext.define('NX.controller.Bookmarking', {
   bindToHistory: function () {
     var me = this;
 
-    //Ext.History.on('change', me.onNavigate, me);
+    Ext.History.on('change', me.onNavigate, me);
   }
 
 });
