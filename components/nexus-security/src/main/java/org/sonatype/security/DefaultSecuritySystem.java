@@ -178,19 +178,6 @@ public class DefaultSecuritySystem
 
   }
 
-  public void checkPermission(PrincipalCollection principal, List<String> permissions) throws AuthorizationException {
-    try {
-      this.getSecurityManager().checkPermissions(principal, permissions.toArray(new String[permissions.size()]));
-    }
-    catch (org.apache.shiro.authz.AuthorizationException e) {
-      throw new AuthorizationException(e.getMessage(), e);
-    }
-  }
-
-  public boolean hasRole(PrincipalCollection principals, String string) {
-    return this.getSecurityManager().hasRole(principals, string);
-  }
-
   private Collection<Realm> getRealmsFromConfigSource() {
     List<Realm> realms = new ArrayList<Realm>();
 
@@ -369,13 +356,6 @@ public class DefaultSecuritySystem
 
     // flush authc
     eventBus.post(new UserPrincipalsExpired(userId, source));
-  }
-
-  public Set<RoleIdentifier> getUsersRoles(String userId, String source)
-      throws UserNotFoundException, NoSuchUserManagerException
-  {
-    User user = this.getUser(userId, source);
-    return user.getRoles();
   }
 
   public void setUsersRoles(String userId, String source, Set<RoleIdentifier> roleIdentifiers)
