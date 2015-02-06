@@ -18,7 +18,6 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.sonatype.nexus.repository.Format;
-import org.sonatype.nexus.repository.raw.RawFormat;
 import org.sonatype.nexus.repository.security.RepositoryFormatSecurityResource;
 
 /**

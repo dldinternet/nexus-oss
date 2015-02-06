@@ -20,7 +20,6 @@ import org.sonatype.nexus.repository.httpclient.HttpClientFacet
 import org.sonatype.nexus.repository.negativecache.NegativeCacheHandler
 import org.sonatype.nexus.repository.negativecache.NegativeCacheImpl
 import org.sonatype.nexus.repository.proxy.ProxyHandler
-import org.sonatype.nexus.repository.raw.RawFormat
 import org.sonatype.nexus.repository.security.SecurityHandler
 import org.sonatype.nexus.repository.storage.StorageFacetImpl
 import org.sonatype.nexus.repository.types.ProxyType
