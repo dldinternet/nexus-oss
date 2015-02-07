@@ -53,13 +53,14 @@ public class SimpleGroupFacet
 
   @Override
   protected void doStart() throws Exception {
-    super.doStop();
+    super.doStart();
     indexHtml = getRepository().facet(SimpleIndexHtmlFacet.class);
   }
 
   @Override
   protected void doStop() throws Exception {
     indexHtml = null;
+    super.doStop();
   }
 
   //
