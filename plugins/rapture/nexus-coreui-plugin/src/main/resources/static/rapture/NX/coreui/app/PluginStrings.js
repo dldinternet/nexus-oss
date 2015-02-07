@@ -956,9 +956,9 @@ Ext.define('NX.coreui.app.PluginStrings', {
     // Admin -> System -> Tasks
     ADMIN_TASKS_TITLE: 'Tasks',
     ADMIN_TASKS_SUBTITLE: 'Manage scheduled tasks',
-    ADMIN_TASKS_CREATE_TITLE: 'Create Task',
-    ADMIN_TASKS_CREATE_TYPE: 'Service type',
-    ADMIN_TASKS_CREATE_TYPE_PLACEHOLDER: 'Select a type',
+    ADMIN_TASKS_SELECT_TITLE: 'Select a Service Type',
+    ADMIN_TASKS_SELECT_TYPE_NAME_COLUMN: 'Service type',
+    ADMIN_TASKS_CREATE_TITLE: 'Create {0} Task',
     ADMIN_TASKS_CREATE_ENABLED: 'Task enabled',
     ADMIN_TASKS_CREATE_NAME: 'Task name',
     ADMIN_TASKS_CREATE_EMAIL: 'Notification email',
