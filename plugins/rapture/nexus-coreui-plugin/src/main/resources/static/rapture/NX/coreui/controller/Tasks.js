@@ -42,7 +42,6 @@ Ext.define('NX.coreui.controller.Tasks', {
     'task.TaskList',
     'task.TaskSelectType',
     'task.TaskScheduleFieldSet',
-    'task.TaskScheduleForm',
     'task.TaskScheduleAdvanced',
     'task.TaskScheduleDaily',
     'task.TaskScheduleHourly',
@@ -111,11 +110,11 @@ Ext.define('NX.coreui.controller.Tasks', {
           click: me.stopTask,
           afterrender: me.bindStopButton
         },
-        'nx-coreui-task-settings nx-settingsform': {
+        /*'nx-coreui-task-settings nx-settingsform': {
           submitted: function() {
             me.loadStore(Ext.emptyFn)
           }
-        },
+        },*/
         'nx-coreui-task-settings button[action=save]': {
           click: me.updateTask
         },
@@ -193,15 +192,6 @@ Ext.define('NX.coreui.controller.Tasks', {
    */
   showSettings: function(model) {
     this.getSettings().loadRecord(model);
-  },
-
-  /**
-   * @private
-   * Displays task schedule.
-   * @param {NX.coreui.model.Task} model task model
-   */
-  showSchedule: function(model) {
-    this.getSchedule().loadRecord(model);
   },
 
   /**
@@ -286,7 +276,7 @@ Ext.define('NX.coreui.controller.Tasks', {
       if (Ext.isObject(response)) {
         if (response.success) {
           NX.Messages.add({
-            text: NX.I18n.format('ADMIN_TASKS_UPDATE_SUCCESS',
+            text: NX.I18n.format('ADMIN_TASKS_SETTINGS_UPDATE_SUCCESS',
               me.getDescription(me.getTaskModel().create(response.data))),
             type: 'success'
           });
@@ -306,12 +296,12 @@ Ext.define('NX.coreui.controller.Tasks', {
     var me = this,
       form = button.up('form'),
       values = form.getValues();
-    global = values;
+
     NX.direct.coreui_Task.create(values, function(response) {
       if (Ext.isObject(response)) {
         if (response.success) {
           NX.Messages.add({
-            text: NX.I18n.format('ADMIN_CAPABILITIES_CREATE_SUCCESS',
+            text: NX.I18n.format('ADMIN_TASKS_CREATE_SUCCESS',
               me.getDescription(me.getTaskModel().create(response.data))),
             type: 'success'
           });

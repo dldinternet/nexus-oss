@@ -419,11 +419,9 @@ Ext.define('NX.coreui.controller.Capabilities', {
    */
   createCapability: function(button) {
     var me = this,
-        win = button.up('window'),
         form = button.up('form'),
         values = form.getValues();
 
-    console.log(values);
     NX.direct.capability_Capability.create(values, function(response) {
       if (Ext.isObject(response)) {
         if (response.success) {
